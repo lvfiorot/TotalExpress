@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://edi.totalexpress.com.br/soap/webservice_calculo_frete.total"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  targetNamespace="http://edi.totalexpress.com.br/soap/webservice_calculo_frete.total"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://edi.totalexpress.com.br/soap/webservice_calculo_frete.total">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+      <xsd:complexType name="calcularFrete">
+        <xsd:all>
+          <xsd:element minOccurs="1" name="calcularFreteRequest" type="tns:calcularFreteRequest" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="calcularFreteRequest">
+        <xsd:all>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TipoServico" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="CepDestino" type="xsd:nonNegativeInteger" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Peso" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ValorDeclarado" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="TipoEntrega" type="xsd:nonNegativeInteger" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ServicoCOD" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Altura" type="xsd:nonNegativeInteger" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Largura" type="xsd:nonNegativeInteger" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Profundidade" type="xsd:nonNegativeInteger" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="calcularFreteResponse">
+        <xsd:all>
+          <xsd:element minOccurs="1" name="CodigoProc" type="xsd:nonNegativeInteger" />
+          <xsd:element minOccurs="0" name="DadosFrete" type="tns:DadosFrete" />
+          <xsd:element minOccurs="0" name="ErroConsultaFrete" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="DadosFrete">
+        <xsd:all>
+          <xsd:element minOccurs="1" name="Prazo" type="xsd:string" />
+          <xsd:element minOccurs="1" name="ValorServico" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:element name="calcularFrete" type="tns:calcularFrete" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="calcularFreteRequest">
+    <wsdl:part name="calcularFreteRequest" type="tns:calcularFreteRequest" />
+  </wsdl:message>
+  <wsdl:message name="calcularFreteResponse">
+    <wsdl:part name="calcularFreteResponse" type="tns:calcularFreteResponse" />
+  </wsdl:message>
+  <wsdl:portType name="webservice_calculo_frete.totalPortType">
+    <wsdl:operation name="calcularFrete">
+      <documentation>Webservice de Cálculo de Frete</documentation>
+      <wsdl:input message="tns:calcularFreteRequest" />
+      <wsdl:output message="tns:calcularFreteResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="webservice_calculo_frete.totalBinding" type="tns:webservice_calculo_frete.totalPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="calcularFrete">
+      <soap:operation soapAction="urn:simulaFrete#calcularFrete" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:calcularFrete" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:calcularFrete" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="webservice_calculo_frete.total">
+    <wsdl:port name="webservice_calculo_frete.totalPort" binding="tns:webservice_calculo_frete.totalBinding">
+      <soap:address location="https://edi.totalexpress.com.br/webservice_calculo_frete.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
